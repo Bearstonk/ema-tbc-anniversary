@@ -495,6 +495,10 @@ end
 -------------------------------------------------------------------------------------------------------------
 
 function EMA:CanDisplayQuestWatcher()
+	-- Do not show if database not initialized yet.
+	if not EMA.db then
+		return false
+	end
 	-- Do not show is quest watcher disabled.
 	if EMA.db.enableQuestWatcher == false then
 		return false
@@ -657,6 +661,9 @@ end
 
 
 function EMA:SettingsUpdateBorderStyle()
+	if not EMA.db then
+		return
+	end
 	local borderStyle = EMA.SharedMedia:Fetch( "border", EMA.db.borderStyle )
 	local backgroundStyle = EMA.SharedMedia:Fetch( "background", EMA.db.backgroundStyle )
 	local frame = EMAQuestWatcherFrame
@@ -671,6 +678,9 @@ function EMA:SettingsUpdateBorderStyle()
 end
 
 function EMA:SettingsUpdateFontStyle()
+	if not EMA.db then
+		return
+	end
 	local textFont = EMA.SharedMedia:Fetch( "font", EMA.db.watchFontStyle )
 	local textSize = EMA.db.watchFontSize
 	local frame = EMAQuestWatcherFrame
@@ -680,6 +690,9 @@ end
 
 function EMA:UpdateQuestWatcherDimensions()
 	if InCombatLockdown() == true then
+		return
+	end
+	if not EMA.db then
 		return
 	end		
 		local frame = EMAQuestWatcherFrame
@@ -697,6 +710,9 @@ end
 
 function EMA:SetQuestWatcherVisibility()
 	if InCombatLockdown() == true then
+		return
+	end
+	if not EMA.db then
 		return
 	end
 	if EMA:CanDisplayQuestWatcher() == true then
@@ -951,7 +967,7 @@ function EMA:SettingsDoNotHideCompletedObjectives( event, checked )
 end
 
 function EMA:UpdateUnlockWatcherFrame()
-	if EMA.db.enableQuestWatcher == false then
+	if not EMA.db or EMA.db.enableQuestWatcher == false then
 		return
 	end
 	if EMA.db.unlockWatcherFrame == true then
@@ -962,7 +978,7 @@ function EMA:UpdateUnlockWatcherFrame()
 end
 
 function EMA:UpdateHideBlizzardWatchFrame()
-	if EMA.db.enableQuestWatcher == false then
+	if not EMA.db or EMA.db.enableQuestWatcher == false then
 		return
 	end
 	-- WOLTK workaround!
@@ -1360,7 +1376,7 @@ function EMA:EMAQuestWatcherQuestLogUpdate( useCache )
 end
 
 function EMA:EMAQuestWatcherUpdate( useCache, questType )
-	if EMA.db.enableQuestWatcher == false then
+	if not EMA.db or EMA.db.enableQuestWatcher == false then
 		return
 	end
 	if questType == "quest" or "all" then

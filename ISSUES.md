@@ -2,13 +2,23 @@
 
 ## Active Issues
 
+### Critical Bugs
+
+- [x] **Database Initialization Timing Issue (QuestWatcher-Classic)**
+  - **Discovered:** January 17, 2026 during initial load testing
+  - **Error:** `attempt to index field 'db' (a nil value)` at line 1363
+  - **Root Cause:** Scheduled timers in `OnEnable()` firing before `EMAModuleInitialize()` completes database setup
+  - **Affected Functions:** `EMAQuestWatcherUpdate`, `CanDisplayQuestWatcher`, `SetQuestWatcherVisibility`, `UpdateUnlockWatcherFrame`, `UpdateHideBlizzardWatchFrame`, `UpdateQuestWatcherDimensions`, `SettingsUpdateBorderStyle`, `SettingsUpdateFontStyle`
+  - **Fix:** Added `if not EMA.db then return end` safety checks to all affected functions
+  - **Status:** Fixed, awaiting retest
+
 ### High Priority
 
 - [ ] **Test addon loading in TBC Classic**
   - Load addon in WoW Classic: Burning Crusade Anniversary
   - Check for Lua errors in `/console scriptErrors 1`
   - Verify no taint issues
-  - Status: Not started
+  - Status: In progress - found and fixed QuestWatcher DB initialization issue
 
 - [ ] **Verify Party/Raid Functionality**
   - Test party invite system with multiple characters
