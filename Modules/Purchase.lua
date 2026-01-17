@@ -471,7 +471,7 @@ end
 -- Called when the addon is enabled.
 function EMA:OnEnable()
 	EMA:RegisterEvent( "MERCHANT_SHOW" )
-	if EMAPrivate.Core.isEmaClassicBccBuild() == true then
+	if EMAPrivate.Core and EMAPrivate.Core.isEmaClassicBccBuild and EMAPrivate.Core.isEmaClassicBccBuild() == true then
 		EMA:RawHook( "ContainerFrameItemButton_OnModifiedClick", true )
 	else
 		--10.x

@@ -151,7 +151,8 @@ end
 function EMA:OnEnable()
 	EMA:RegisterEvent( "BANKFRAME_OPENED" )
 	EMA:RegisterEvent( "BANKFRAME_CLOSED" )
-	if EMAPrivate.Core.isEmaClassicBccBuild() == true then
+	-- Check if Core functions are available before using them
+	if EMAPrivate.Core and EMAPrivate.Core.isEmaClassicBccBuild and EMAPrivate.Core.isEmaClassicBccBuild() == true then
 		EMA:RawHook( "ContainerFrameItemButton_OnModifiedClick", true )
 	else
 		--10.x

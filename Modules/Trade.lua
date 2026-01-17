@@ -158,7 +158,7 @@ end
 function EMA:OnEnable()
 	EMA:RegisterEvent( "TRADE_SHOW" )
 	EMA:RegisterEvent( "TRADE_CLOSED" ) -- Unsued but we keep it for now!
-	if EMAPrivate.Core.isEmaClassicBccBuild() == true then
+	if EMAPrivate.Core and EMAPrivate.Core.isEmaClassicBccBuild and EMAPrivate.Core.isEmaClassicBccBuild() == true then
 		EMA:RawHook( "ContainerFrameItemButton_OnModifiedClick", true )
 	else
 		--10.x

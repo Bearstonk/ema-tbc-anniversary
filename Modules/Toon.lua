@@ -1167,7 +1167,7 @@ function EMA:OnEnable()
 	EMA:RegisterEvent( "AUTOFOLLOW_END" )
 	EMA:RegisterEvent( "PLAYER_REGEN_DISABLED" )
 	EMA:RegisterEvent( "PLAYER_REGEN_ENABLED" )	
-	if EMAPrivate.Core.isEmaClassicBccBuild() == false then
+	if EMAPrivate.Core and EMAPrivate.Core.isEmaClassicBccBuild and EMAPrivate.Core.isEmaClassicBccBuild() == false then
 		EMA:RegisterEvent( "UI_ERROR_MESSAGE", "PVP_FOLLOW" )
 	end	
 	

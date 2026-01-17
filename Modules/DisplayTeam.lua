@@ -26,7 +26,8 @@ local EMAHelperSettings = LibStub:GetLibrary( "EMAHelperSettings-1.0" )
 local LibBagUtils = LibStub:GetLibrary( "LibBagUtils-1.0" )
 local LibButtonGlow = LibStub:GetLibrary( "LibButtonGlow-1.0" )
 EMA.SharedMedia = LibStub( "LibSharedMedia-3.0" )
-local TrufiGCD = EMAPrivate.Core.IsAddOnLoadedCompat( "TrufiGCD" )
+-- Note: TrufiGCD check is now done at module initialization, not load time
+local TrufiGCD = false
 TrufiGCDGlSave = TrufiGCDGlSave
 
 
@@ -3305,6 +3306,8 @@ end
 function EMA:OnInitialize()
 	EMA.previousSlotsFree = 0
 	EMA.previousTotalSlots = 0
+	-- Check for TrufiGCD addon now that Core is loaded
+	TrufiGCD = EMAPrivate.Core.IsAddOnLoadedCompat( "TrufiGCD" )
 	-- Create the settings control.
 	SettingsCreate()
 	-- Initialise the EMAModule part of this module.

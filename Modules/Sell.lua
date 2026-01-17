@@ -791,7 +791,7 @@ function EMA:OnEnable()
 	EMA:RegisterEvent( "MERCHANT_SHOW" )
 	EMA:RegisterEvent( "MERCHANT_CLOSED" )
 	-- Hook the item click event.
-	if EMAPrivate.Core.isEmaClassicBccBuild() == true then
+	if EMAPrivate.Core and EMAPrivate.Core.isEmaClassicBccBuild and EMAPrivate.Core.isEmaClassicBccBuild() == true then
 		EMA:RawHook( "ContainerFrameItemButton_OnModifiedClick", true )
 		
 	else
