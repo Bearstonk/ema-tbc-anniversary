@@ -1,0 +1,34 @@
+## Interface: 20504
+## Title: EMA
+## Notes: Ebony's MultiBoxing Assistant - TBC Anniversary Edition
+## Author: Jennifer Calladine 'Ebony/Blossom' | Fork by Bearstonk
+## Version: Release-v4.3(0243)-TBC-Anniversary
+## SavedVariables: CoreProfileDB, CommunicationsProfileDB, TeamProfileDB, TagProfileDB, MessageProfileDB, InformationProfileDB, InformationClassicProfileDB, DisplayTeamProfileDB, FollowProfileDB, GuildProfileDB, InteractionProfileDB, ItemUseProfileDB, PurchaseProfileDB, QuestProfileDB,  QuestWatcherProfileDB, SellProfileDB, TalkProfileDB, ToonProfileDB, TradeProfileDB, MailProfileDB, BankProfileDB, ISBoxerProfileDB
+## IconTexture: Interface\Addons\EMA\Media\TeamCore.tga
+
+
+
+#Libs
+Embeds.xml
+Libs\EbonyUtilities.lua
+
+#Locales
+Locales\Locales.xml
+
+#GUI
+GUI\EMAHelperSettings.lua
+
+#Core
+Core\Core.lua
+Core\Module.lua
+Core\Communications.lua
+
+Core\Team.lua
+Core\Tag.lua
+Core\Message.lua
+
+#Modules
+Modules\Modules.xml
+
+#Bindings
+Bindings.xml
