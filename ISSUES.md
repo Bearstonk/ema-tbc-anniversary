@@ -5,20 +5,32 @@
 ### Critical Bugs
 
 - [x] **Database Initialization Timing Issue (QuestWatcher-Classic)**
-  - **Discovered:** January 17, 2026 during initial load testing
-  - **Error:** `attempt to index field 'db' (a nil value)` at line 1363
-  - **Root Cause:** Scheduled timers in `OnEnable()` firing before `EMAModuleInitialize()` completes database setup
-  - **Affected Functions:** `EMAQuestWatcherUpdate`, `CanDisplayQuestWatcher`, `SetQuestWatcherVisibility`, `UpdateUnlockWatcherFrame`, `UpdateHideBlizzardWatchFrame`, `UpdateQuestWatcherDimensions`, `SettingsUpdateBorderStyle`, `SettingsUpdateFontStyle`
-  - **Fix:** Added `if not EMA.db then return end` safety checks to all affected functions
-  - **Status:** Fixed, awaiting retest
+  - **Status:** Fixed - Added nil checks to prevent accessing db before initialization
+
+- [x] **Module Load Order Initialization Errors**
+  - **Status:** Fixed - Added safety checks for EMAPrivate.Core functions in OnEnable
+
+- [x] **TOC File Configuration**
+  - **Status:** Fixed - Updated EMA.toc with interface version 20504 for TBC Anniversary
+  - **Status:** Fixed - Added properly named ema-tbc-anniversary.toc
+
+- [ ] **LibBagUtils Import Error (LDBBar.lua:35)**
+  - **Discovered:** January 17, 2026 - addon now loads but LDBBar module fails
+  - **Error:** `attempt to call global 'LibBagUtils' (a nil value)`
+  - **Status:** Needs investigation - may be TBC compatibility issue
+
+- [ ] **InterfaceOptions_AddCategory is nil (EMAHelperSettings.lua)**
+  - **Discovered:** January 17, 2026
+  - **Error:** Trying to call nil function in EMAHelperSettings
+  - **Status:** Needs investigation - may not exist in TBC
 
 ### High Priority
 
-- [ ] **Test addon loading in TBC Classic**
-  - Load addon in WoW Classic: Burning Crusade Anniversary
-  - Check for Lua errors in `/console scriptErrors 1`
-  - Verify no taint issues
-  - Status: In progress - found and fixed QuestWatcher DB initialization issue
+- [x] **Test addon loading in TBC Classic**
+  - ✅ Addon loads successfully
+  - ✅ Configuration UI opens with `/ema config`
+  - ✅ EMA Team window displays with team members
+  - Status: Completed - addon is functional but has runtime errors
 
 - [ ] **Verify Party/Raid Functionality**
   - Test party invite system with multiple characters
