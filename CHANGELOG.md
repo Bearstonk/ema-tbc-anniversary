@@ -7,42 +7,89 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [v4.3(0243)-TBC-Anniversary] - 2026-01-17
 
 ### Added
-- API compatibility layer for cross-version support
+- **API Compatibility Layer** for cross-version support
   - `GetAddOnMetadataCompat()` - Safe addon metadata retrieval across WoW versions
   - `IsAddOnLoadedCompat()` - Safe addon detection across WoW versions
   - Exported in `EMAPrivate.Core` for module access
+  - Handles both C_AddOns namespace (Retail) and global functions (Classic/TBC)
 
-- Documentation
-  - Comprehensive README.md with installation and configuration guide
-  - ISSUES.md with testing checklist and feature requests
+- **TBC TOC Files**
+  - Created `EMA_TBC.toc` with interface version 20504
+  - Created `ema-tbc-anniversary.toc` for folder name matching
+  - Updated `EMA.toc` to interface 20504 for TBC Anniversary
+
+- **Fork Attribution**
+  - GUI displays fork maintainer: Tom Williams (Bearstonk)
+  - Added [BETA/IN TESTING] warning in orange
+  - Updated copyright to include fork year and maintainer
+  - Preserved original author attribution (Jennifer Calladine)
+
+- **Documentation**
+  - Comprehensive DEVLOG.md documenting development decisions
+  - README.md with installation and troubleshooting guide
+  - ISSUES.md with testing checklist and bug tracking
   - CHANGELOG.md (this file)
 
 ### Changed
-- Core.lua refactored to use compatibility wrapper functions
-  - Updated version detection to use `GetAddOnMetadataCompat()`
-  - Updated Jamba detection to use `IsAddOnLoadedCompat()`
-  - Exported compatibility functions for use by other modules
+- **Core.lua** - Refactored for TBC compatibility
+  - Version detection uses `GetAddOnMetadataCompat()`
+  - Addon detection uses `IsAddOnLoadedCompat()`
+  - Exported compatibility functions for module use
 
-- DisplayTeam.lua updated for TBC compatibility
-  - TrufiGCD detection now uses `IsAddOnLoadedCompat()`
-  - Multiple instances (lines 29, 3251, 3268) updated
+- **DisplayTeam.lua** - TBC compatibility updates
+  - TrufiGCD detection moved from load-time to OnInitialize()
+  - Uses `EMAPrivate.Core.IsAddOnLoadedCompat()` (lines 29, 3251, 3268)
 
-- Quest-Classic.lua updated for TBC compatibility
-  - ElvUI detection now uses `IsAddOnLoadedCompat()` (line 1959)
+- **Quest-Classic.lua** - TBC compatibility
+  - ElvUI detection uses `IsAddOnLoadedCompat()` (line 1959)
+
+- **6 Modules** - Added safety checks for Core function availability
+  - Bank.lua, Trade.lua, Toon.lua, Sell.lua, Purchase.lua, Interaction.lua
+  - Prevents nil errors when modules load before Core completes
 
 ### Fixed
-- Cross-version API compatibility issues
-  - Resolved nil value errors when calling C_AddOns on older WoW versions
+- **Critical: Database Initialization Timing** (Issue #1)
+  - Fixed `attempt to index field 'db' (a nil value)` in QuestWatcher-Classic
+  - Added nil checks to 8 functions before accessing `EMA.db`
+  - Functions: EMAQuestWatcherUpdate, CanDisplayQuestWatcher, SetQuestWatcherVisibility, UpdateUnlockWatcherFrame, UpdateHideBlizzardWatchFrame, UpdateQuestWatcherDimensions, SettingsUpdateBorderStyle, SettingsUpdateFontStyle
+
+- **Critical: Module Load-Order Errors** (Issue #2)
+  - Fixed nil errors from calling `EMAPrivate.Core.isEmaClassicBccBuild()` too early
+  - Added existence checks before calling Core functions in OnEnable()
+  - Affected modules: DisplayTeam, Bank, Trade, Toon, Sell, Purchase
+
+- **Critical: TOC Configuration** (Issue #3)
+  - Fixed addon not loading due to wrong interface version
+  - Changed from interface 100100 (Retail) to 20504 (TBC Anniversary)
+  - Ensures addon loads correctly in WoW Classic: Burning Crusade Anniversary
+
+- **Cross-Version API Compatibility**
+  - Resolved nil value errors when calling C_AddOns on TBC
   - Safely handles both new (C_AddOns namespace) and old (global functions) APIs
 
+### Known Issues
+- LibBagUtils import errors in multiple modules (TBC library compatibility)
+- InterfaceOptions_AddCategory is nil in EMAHelperSettings.lua (TBC UI framework difference)
+- Various runtime errors from library compatibility (non-critical, under investigation)
+
 ### Tested
-- ✅ Addon loads without Lua errors
-- ✅ API compatibility functions available
-- ✅ Module compatibility layer working
-- ⏳ Full gameplay testing pending
+- ✅ Addon loads successfully in TBC Anniversary
+- ✅ Configuration UI opens with `/ema config`
+- ✅ Team window displays team members
+- ✅ No critical Lua errors on load
+- ✅ API compatibility functions working
+- ⏳ Full module testing in progress
+- ⏳ Extended gameplay testing pending
+
+### Migration Notes
+For users upgrading from upstream EMA or previous versions:
+1. Disable old EMA version in addon list
+2. Install this fork as separate addon
+3. Configuration should be preserved (uses same SavedVariables)
+4. Report any issues to GitHub repository
 
 ---
 
